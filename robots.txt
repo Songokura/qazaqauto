@@ -9,4 +9,4 @@ Allow: /
 Disallow: /assets/lang/
 Disallow: /*lang=kk
 
-Sitemap: https://songokura.github.io/qazaqauto/sitemap.xml
+Sitemap: https://qazaq-auto.kz/sitemap.xml
