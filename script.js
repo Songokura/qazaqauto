@@ -255,6 +255,20 @@
     });
   }
 
+  /* ---------- конверсии Google Ads ---------- */
+  function fireConv(key) {
+    if (typeof window.gtag_report_conversion !== 'function' || !window.AW_CONV) return;
+    var sendTo = window.AW_CONV[key];
+    if (sendTo) window.gtag_report_conversion(undefined, sendTo);
+  }
+  /* tel: и wa.me открывают другое приложение или вкладку, страница не выгружается -
+     переход не перехватываем, только отправляем конверсию. */
+  doc.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"], a[href*="wa.me"]') : null;
+    if (!a) return;
+    fireConv(a.getAttribute('href').indexOf('tel:') === 0 ? 'phone' : 'contact');
+  });
+
   /* ---------- форма -> WhatsApp ---------- */
   var form = doc.getElementById('form');
   if (form) {
@@ -279,6 +293,7 @@
       var msg = form.message.value.trim();
       if (msg) lines.push(t('fm.msg', 'Комментарий') + ': ' + msg);
       var url = 'https://wa.me/77767509594?text=' + encodeURIComponent(lines.join('\n'));
+      fireConv('form');
       window.open(url, '_blank', 'noopener');
       ok.hidden = false;
       form.querySelector('button[type="submit"]').blur();
