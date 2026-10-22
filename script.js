@@ -243,6 +243,16 @@
     var setX = function () { cmp.style.setProperty('--x', range.value + '%'); };
     range.addEventListener('input', setX);
     setX();
+    var imB = cmp.querySelector('.cmp-before img'), imA = cmp.querySelector('.cmp-after img');
+    var cases = doc.querySelectorAll('.cmp-case');
+    cases.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        cases.forEach(function (b) { b.classList.toggle('is-active', b === btn); b.setAttribute('aria-pressed', b === btn); });
+        imB.src = btn.dataset.before; imB.alt = btn.dataset.altBefore;
+        imA.src = btn.dataset.after; imA.alt = btn.dataset.altAfter;
+        range.value = 50; setX();
+      });
+    });
   }
 
   /* ---------- форма -> WhatsApp ---------- */
